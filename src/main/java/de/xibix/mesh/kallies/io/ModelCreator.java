@@ -1,6 +1,6 @@
 package de.xibix.mesh.kallies.io;
 
-import de.xibix.mesh.kallies.entities.NeighbourRegistry;
+import de.xibix.mesh.kallies.entities.NeighbourRegister;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -10,11 +10,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+/**
+ * helper class for handling json file input.
+ */
 public class ModelCreator {
     private final JSONArray nodes;
     private final JSONArray elements;
     private final JSONArray values;
 
+    /**
+     * Ctor.
+     * @param filename name of json file
+     * @throws IOException io exception
+     */
     public ModelCreator(final String filename) throws IOException {
         try (InputStream is = new FileInputStream(filename)) {
             final JSONTokener tokener = new JSONTokener(is);
@@ -22,11 +30,14 @@ public class ModelCreator {
             nodes = json.getJSONArray("nodes");
             elements = json.getJSONArray("elements");
             values = json.getJSONArray("values");
-
         }
     }
 
-    public NeighbourRegistry createNeighbourRegistry() {
+    /**
+     * create neighbour registry for finding neighbouring elements by element id.
+     * @return neighbour registry.
+     */
+    public NeighbourRegister createNeighbourRegister() {
         Map<Integer, Set<Integer>> nodesByElement = new HashMap<>();
         Map<Integer, Set<Integer>> elementsByNode = new HashMap<>();
         for (int i = 0; i < elements.length(); ++i) {
@@ -39,9 +50,13 @@ public class ModelCreator {
                 insertIntoMap(nodeId, elementId, elementsByNode);
             }
         }
-        return new NeighbourRegistry(elementsByNode, nodesByElement);
+        return new NeighbourRegister(elementsByNode, nodesByElement);
     }
 
+    /**
+     * create a map element id -> value;
+     * @return map with element id as key and value as value.
+     */
     public Map<Integer, Double> createHeightRegister() {
         Map<Integer, Double> register = new HashMap<>();
         for (int i = 0; i < values.length(); ++i) {

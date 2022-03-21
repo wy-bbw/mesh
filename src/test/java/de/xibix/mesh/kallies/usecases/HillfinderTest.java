@@ -1,7 +1,7 @@
 package de.xibix.mesh.kallies.usecases;
 
 import de.xibix.mesh.kallies.entities.Hill;
-import de.xibix.mesh.kallies.entities.NeighbourRegistry;
+import de.xibix.mesh.kallies.entities.NeighbourRegister;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -49,32 +49,32 @@ public class HillfinderTest {
         enterIntoMap(nodesByElement, 0, 3, 4, 5);
         enterIntoMap(nodesByElement, 1, 5, 6, 7);
 
-        NeighbourRegistry neighbourRegistry = new NeighbourRegistry(elementsByNode, nodesByElement);
+        NeighbourRegister neighbourRegister = new NeighbourRegister(elementsByNode, nodesByElement);
         Map<Integer, Double> heightRegistry = new HashMap<>();
         heightRegistry.put(2, 1.0);
         heightRegistry.put(0, 0.0);
         heightRegistry.put(1, 3.0);
 
-        Hillfinder hillfinder = new Hillfinder(neighbourRegistry, heightRegistry);
+        Hillfinder hillfinder = new Hillfinder(neighbourRegister, heightRegistry);
         List<Hill> hills = hillfinder.findAll();
         assertEquals(2, hills.size());
-        hills.sort((a, b) -> {return a.getMaxHeight() > b.getMaxHeight() ? -1 : a.getMaxHeight() == b.getMaxHeight() ? 0 : 1;});
+        hills.sort(Hill.HIGHEST_HILL_FIRST);
         assertEquals(3, hills.get(0).getMaxHeight());
         assertEquals(1, hills.get(1).getMaxHeight());
     }
 
     /**
      * element connections
-     * 0 <--> 1
-     * 0 <--> 2
-     * 0 <--> 5
-     * 0 <--> 7
-     * 1 <--> 4
-     * 2 <--> 3
-     * 2 <--> 7
-     * 2 <--> 8
-     * 3 <--> 4
-     * 5 <--> 6
+     * 0 <-17-> 1
+     * 0 <-5-> 2
+     * 0 <-4-> 5
+     * 0 <-5-> 7
+     * 1 <-15-> 4
+     * 2 <-11-> 3
+     * 2 <-5-> 7
+     * 2 <-8-> 8
+     * 3 <-13-> 4
+     * 5 <-2,3-> 6
      *
      * heights:
      * 0 -> 0
@@ -130,14 +130,51 @@ public class HillfinderTest {
         enterIntoMap(nodesByElement, 7, 5, 6, 7);
         enterIntoMap(nodesByElement, 8, 9, 10, 8);
 
-        NeighbourRegistry neighbourRegistry = new NeighbourRegistry(elementsByNode, nodesByElement);
-        Hillfinder hillfinder = new Hillfinder(neighbourRegistry, heightRegistry);
+        NeighbourRegister neighbourRegister = new NeighbourRegister(elementsByNode, nodesByElement);
+        Hillfinder hillfinder = new Hillfinder(neighbourRegister, heightRegistry);
         List<Hill> hills = hillfinder.findAll();
         assertEquals(3, hills.size());
-        hills.sort((a, b) -> {return a.getMaxHeight() > b.getMaxHeight() ? -1 : a.getMaxHeight() == b.getMaxHeight() ? 0 : 1;});
+        hills.sort(Hill.HIGHEST_HILL_FIRST);
         assertEquals(8, hills.get(0).getMaxHeight());
         assertEquals(6, hills.get(1).getMaxHeight());
         assertEquals(2, hills.get(2).getMaxHeight());
     }
 
+
+    /**
+     * connections: terminology: elementId1 <- connecting node ids -> elementId2
+     * 0 <-2-> 1
+     * 1 <-6-> 2
+     * 1 <-3-> 3
+     * heights = ids
+     */
+    @Test
+    public void testTwoHills() {
+        Map<Integer, Double> heightRegistry = new HashMap<>();
+        for (int i = 0; i < 4; ++i) {
+            heightRegistry.put(i, (double) i);
+        }
+
+        Map<Integer, Set<Integer>> nodesByElement = new HashMap<>();
+        enterIntoMap(nodesByElement, 0, 0, 1, 2);
+        enterIntoMap(nodesByElement, 1, 2, 3, 6);
+        enterIntoMap(nodesByElement, 2, 6, 7, 8);
+        enterIntoMap(nodesByElement, 3, 3, 4, 5);
+
+        Map<Integer, Set<Integer>> elementsByNode = new HashMap<>();
+        enterIntoMap(elementsByNode, 0, 0);
+        enterIntoMap(elementsByNode, 1, 0);
+        enterIntoMap(elementsByNode, 2, 0, 1);
+        enterIntoMap(elementsByNode, 3, 1, 3);
+        enterIntoMap(elementsByNode, 4, 3);
+        enterIntoMap(elementsByNode, 5, 3);
+        enterIntoMap(elementsByNode, 6, 1, 2);
+        enterIntoMap(elementsByNode, 7, 2);
+        enterIntoMap(elementsByNode, 8, 2);
+
+        NeighbourRegister neighbourRegister = new NeighbourRegister(elementsByNode, nodesByElement);
+        Hillfinder hillfinder = new Hillfinder(neighbourRegister, heightRegistry);
+        List<Hill> hills = hillfinder.findAll();
+        assertEquals(2, hills.size());
+    }
 }

@@ -1,6 +1,6 @@
 package de.xibix.mesh.kallies.io;
 
-import de.xibix.mesh.kallies.entities.NeighbourRegistry;
+import de.xibix.mesh.kallies.entities.NeighbourRegister;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class ModelCreatorTest {
     public void testCreateNeighbourRegistryContainsNeighbours() throws IOException {
         String filename = Thread.currentThread().getContextClassLoader().getResource("mesh.json").getFile();
         ModelCreator modelCreator = new ModelCreator(filename);
-        NeighbourRegistry registry = modelCreator.createNeighbourRegistry();
+        NeighbourRegister registry = modelCreator.createNeighbourRegister();
         Set<Integer> neighbours = registry.neighbourIds(0);
         assertTrue(neighbours.contains(1));
         assertTrue(neighbours.contains(2));
@@ -29,7 +29,7 @@ public class ModelCreatorTest {
     public void testDoesNotContainSelf() throws IOException {
         String filename = Thread.currentThread().getContextClassLoader().getResource("mesh.json").getFile();
         ModelCreator modelCreator = new ModelCreator(filename);
-        NeighbourRegistry registry = modelCreator.createNeighbourRegistry();
+        NeighbourRegister registry = modelCreator.createNeighbourRegister();
         final int elementId = 0;
         Set<Integer> neighbours = registry.neighbourIds(elementId);
         assertFalse(neighbours.contains(elementId));

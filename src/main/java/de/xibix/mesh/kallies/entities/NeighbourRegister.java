@@ -4,13 +4,20 @@ import lombok.AllArgsConstructor;
 
 import java.util.*;
 
+
 @AllArgsConstructor
-public class NeighbourRegistry {
+/**
+ * helper class for neighbouring nodes.
+ */
+public class NeighbourRegister {
     private final Map<Integer, Set<Integer>> elementsByNode;
     private final Map<Integer, Set<Integer>> nodesByElement;
 
-    private static final int VERTICES_OF_SQUARE_FROM_NEIGHBOURS = 4;
-
+    /**
+     * find neighbours of element.
+     * @param elementId elemend id.
+     * @return set with ids of neighbours.
+     */
     public Set<Integer> neighbourIds(final Integer elementId) {
         final Set<Integer> verticesOfElement = nodesByElement.get(elementId);
         Set<Integer> neighbourIds = new HashSet<>();

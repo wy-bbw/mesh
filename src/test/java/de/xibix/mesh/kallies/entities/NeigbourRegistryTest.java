@@ -38,7 +38,7 @@ public class NeigbourRegistryTest {
         elementsByNode.put(2, elementsOf2);
         elementsByNode.put(3, elementsOf3);
 
-        NeighbourRegistry registry = new NeighbourRegistry(elementsByNode, nodesByElement);
+        NeighbourRegister registry = new NeighbourRegister(elementsByNode, nodesByElement);
 
         Set<Integer> neighboursOf0 = registry.neighbourIds(0);
         assertEquals(0, neighboursOf0.size());
@@ -72,7 +72,7 @@ public class NeigbourRegistryTest {
         elementsByNode.put(1, elementsOf1);
         elementsByNode.put(2, elementsOf2);
 
-        NeighbourRegistry registry = new NeighbourRegistry(elementsByNode, nodesByElement);
+        NeighbourRegister registry = new NeighbourRegister(elementsByNode, nodesByElement);
 
         Set<Integer> neighboursOf0 = registry.neighbourIds(0);
         assertEquals(1, neighboursOf0.size());

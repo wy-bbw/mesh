@@ -1,5 +1,6 @@
 package de.xibix.mesh.kallies.entities;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,9 +10,15 @@ import java.util.Set;
  * consists of multiple elements that form a hill.
  */
 public class Hill {
-    private Set<Integer> elements;
+    private final Set<Integer> elements;
     private double maxHeight;
-    private Map<Integer, Double> heightsByElement;
+    private int idOfHighestElement;
+    private final Map<Integer, Double> heightsByElement;
+
+    /**
+     * comparator to sort hills by height.
+     */
+    public static final Comparator<Hill> HIGHEST_HILL_FIRST = (a, b) -> Double.compare(b.getMaxHeight(), a.getMaxHeight());
 
     /**
      * Ctor.
@@ -25,10 +32,18 @@ public class Hill {
 
     /**
      * obtain maximum height of all elements.
-     * @return height.
+     * @return height
      */
     public double getMaxHeight() {
         return maxHeight;
+    }
+
+    /**
+     * obtain element id of highest element in hill.
+     * @return element id
+     */
+    public int getIdOfHighestElement() {
+        return idOfHighestElement;
     }
 
     /**
@@ -39,13 +54,14 @@ public class Hill {
         elements.add(elementId);
         final double newHeight = heightsByElement.get(elementId);
         if (newHeight > maxHeight || elements.size() == 1) {
+            idOfHighestElement = elementId;
             maxHeight = newHeight;
         }
     }
 
     /**
      * return number of elements a hill is made of.
-     * @return number of elements.
+     * @return number of elements
      */
     public int numberOfElements() {
         return elements.size();
