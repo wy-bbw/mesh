@@ -54,19 +54,12 @@ public class Hillfinder {
         return allHills;
     }
 
+    // Improvement: currently, the highest element is looked for. Use a treeset here with a suitable comparator instead of a hashset to avoid nasty scaling.
     private StarterKit initializeHill(Set<Integer> ungroupedElements) {
         Iterator<Integer> it = ungroupedElements.iterator();
         Integer current = it.next();
         Integer idOfMaxHeight = current;
         Double maxHeight = heightRegistry.get(current);
-        while (it.hasNext()) {
-            current = it.next();
-            final Double newHeight = heightRegistry.get(current);
-            if (newHeight > maxHeight) {
-                maxHeight = newHeight;
-                idOfMaxHeight = current;
-            }
-        }
 
         Hill hill = new Hill(heightRegistry);
         ungroupedElements.remove(idOfMaxHeight);
@@ -83,7 +76,7 @@ public class Hillfinder {
     }
 
     private Set<Integer> getElementIds() {
-        Set<Integer> returnValue = new HashSet<>();
+        Set<Integer> returnValue = new TreeSet<>((a, b) -> {return Double.compare(heightRegistry.get(b), heightRegistry.get(a));});
         heightRegistry.keySet().forEach(returnValue::add);
         return returnValue;
     }
