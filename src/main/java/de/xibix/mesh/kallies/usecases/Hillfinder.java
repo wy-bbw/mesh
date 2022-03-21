@@ -34,9 +34,7 @@ public class Hillfinder {
 
             Hill hill = starterKit.hill();
 
-            // TODO: add only to queue if id is not in queue: use a map as queue
             while (!queue.isEmpty()) {
-                // TODO: add step
                 Step currentPath = front(queue);
                 double heightOfNeigbourElement = heightRegistry.get(currentPath.elementCandidateId());
 
@@ -67,6 +65,9 @@ public class Hillfinder {
                 } else {
                     // if we were going down before, we may not go up again as that would mean climbing another hill. Plateaus will be added
                     if (heightOfNeigbourElement <= currentPath.previousHeight()) {
+                        hill.addElement(currentPath.elementCandidateId());
+                        ungroupedElements.remove(currentPath.elementCandidateId());
+
                         Set<Integer> newNeighbourCandidates = neighbourRegister.neighbourIds(currentPath.elementCandidateId());
                         newNeighbourCandidates.retainAll(ungroupedElements);
                         for (Integer nextNeighbourId : newNeighbourCandidates) {
