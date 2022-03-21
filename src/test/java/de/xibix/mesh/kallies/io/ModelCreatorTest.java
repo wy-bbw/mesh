@@ -1,6 +1,6 @@
 package de.xibix.mesh.kallies.io;
 
-import de.xibix.mesh.kallies.model.NeighbourRegistry;
+import de.xibix.mesh.kallies.entities.NeighbourRegistry;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

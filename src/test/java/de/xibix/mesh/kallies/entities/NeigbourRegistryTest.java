@@ -1,4 +1,4 @@
-package de.xibix.mesh.kallies.model;
+package de.xibix.mesh.kallies.entities;
 
 import org.junit.jupiter.api.Test;
 

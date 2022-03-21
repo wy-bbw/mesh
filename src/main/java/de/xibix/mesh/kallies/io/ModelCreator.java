@@ -1,6 +1,6 @@
 package de.xibix.mesh.kallies.io;
 
-import de.xibix.mesh.kallies.model.NeighbourRegistry;
+import de.xibix.mesh.kallies.entities.NeighbourRegistry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -40,6 +40,17 @@ public class ModelCreator {
             }
         }
         return new NeighbourRegistry(elementsByNode, nodesByElement);
+    }
+
+    public Map<Integer, Double> createHeightRegister() {
+        Map<Integer, Double> register = new HashMap<>();
+        for (int i = 0; i < values.length(); ++i) {
+            JSONObject entry = values.getJSONObject(i);
+            Integer elementId = entry.getInt("element_id");
+            Double height = entry.getDouble("value");
+            register.put(elementId, height);
+        }
+        return register;
     }
 
     private void insertIntoMap(int key, int value, Map<Integer, Set<Integer>> map) {
