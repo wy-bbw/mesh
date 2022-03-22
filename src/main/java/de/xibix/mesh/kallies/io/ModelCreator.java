@@ -20,6 +20,7 @@ public class ModelCreator {
 
     /**
      * Ctor.
+     *
      * @param filename name of json file
      * @throws IOException io exception
      */
@@ -35,6 +36,7 @@ public class ModelCreator {
 
     /**
      * create neighbour registry for finding neighbouring elements by element id.
+     *
      * @return neighbour registry.
      */
     public NeighbourRegister createNeighbourRegister() {
@@ -55,6 +57,7 @@ public class ModelCreator {
 
     /**
      * create a map element id -> value;
+     *
      * @return map with element id as key and value as value.
      */
     public Map<Integer, Double> createHeightRegister() {

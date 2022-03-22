@@ -22,6 +22,7 @@ public class Hill {
 
     /**
      * Ctor.
+     *
      * @param heightMapping Map elementId -> value
      */
     public Hill(Map<Integer, Double> heightMapping) {
@@ -32,6 +33,7 @@ public class Hill {
 
     /**
      * obtain maximum height of all elements.
+     *
      * @return height
      */
     public double getMaxHeight() {
@@ -44,6 +46,7 @@ public class Hill {
 
     /**
      * obtain element id of highest element in hill.
+     *
      * @return element id
      */
     public int getIdOfHighestElement() {
@@ -52,6 +55,7 @@ public class Hill {
 
     /**
      * add an element to the hill.
+     *
      * @param elementId id of element.
      */
     public void addElement(final Integer elementId) {
@@ -65,6 +69,7 @@ public class Hill {
 
     /**
      * return number of elements a hill is made of.
+     *
      * @return number of elements
      */
     public int numberOfElements() {

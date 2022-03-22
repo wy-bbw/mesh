@@ -17,8 +17,9 @@ import java.util.Map;
 public class ViewSpotFinder {
     /**
      * finds viewspots on a mesh.
+     *
      * @param filename name of json file
-     * @param N number of viewspots to find
+     * @param N        number of viewspots to find
      * @return json object with all viewspots
      * @throws IOException
      */
@@ -33,7 +34,7 @@ public class ViewSpotFinder {
             System.err.println("specified " + N + " viewspots, only found " + listOfHills.size() + ". Returning all found viewspots.");
         }
         JSONArray viewSpots = new JSONArray();
-        for (int i = 0; i < N; ++i) {
+        for (int i = 0; i < N && i < listOfHills.size(); ++i) {
             JSONObject hillObject = new JSONObject();
             hillObject.put("element_id", listOfHills.get(i).getIdOfHighestElement());
             hillObject.put("value", listOfHills.get(i).getMaxHeight());

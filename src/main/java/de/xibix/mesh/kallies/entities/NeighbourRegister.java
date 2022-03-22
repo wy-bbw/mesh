@@ -15,6 +15,7 @@ public class NeighbourRegister {
 
     /**
      * find neighbours of element.
+     *
      * @param elementId elemend id.
      * @return set with ids of neighbours.
      */
@@ -27,5 +28,7 @@ public class NeighbourRegister {
         }
         neighbourIds.remove(elementId);
         return neighbourIds;
-    };
+    }
+
+    ;
 }

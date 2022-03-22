@@ -59,7 +59,7 @@ public class HillfinderIntegrationTest {
 
     // Used for timing
     @Test
-    @Timeout(value=1000, unit = TimeUnit.MILLISECONDS)
+    @Timeout(value = 1000, unit = TimeUnit.MILLISECONDS)
     public void findHillsInSin() throws IOException {
         String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_10000.json").getFile();
         ModelCreator modelCreator = new ModelCreator(filename);
@@ -72,7 +72,7 @@ public class HillfinderIntegrationTest {
 
     // used for timing
     @Test
-    @Timeout(value=3000, unit = TimeUnit.MILLISECONDS)
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void findHillsInSinLarge() throws IOException {
         String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_20000.json").getFile();
         ModelCreator modelCreator = new ModelCreator(filename);

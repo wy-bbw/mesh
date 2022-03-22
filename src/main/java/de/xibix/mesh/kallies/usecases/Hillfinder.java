@@ -15,10 +15,14 @@ public class Hillfinder {
     private NeighbourRegister neighbourRegister;
     private Map<Integer, Double> heightRegistry;
 
-    private record StarterKit(List<Step> paths, Hill hill) {};
+    private record StarterKit(List<Step> paths, Hill hill) {
+    }
+
+    ;
 
     /**
      * return hills. A hill is a collection of elements, where each neighbouring element not part of the hill is elevated.
+     *
      * @return list of hills
      */
     List<Hill> findAll() {
@@ -42,17 +46,17 @@ public class Hillfinder {
                 Step currentPath = front(queue);
                 double heightOfNeigbourElement = heightRegistry.get(currentPath.elementCandidateId());
                 // always go down from the top
-                    if (heightOfNeigbourElement <= currentPath.previousHeight()) {
-                        hill.addElement(currentPath.elementCandidateId());
-                        ungroupedElements.remove(currentPath.elementCandidateId());
+                if (heightOfNeigbourElement <= currentPath.previousHeight()) {
+                    hill.addElement(currentPath.elementCandidateId());
+                    ungroupedElements.remove(currentPath.elementCandidateId());
 
-                        Set<Integer> newNeighbourCandidates = neighbourRegister.neighbourIds(currentPath.elementCandidateId());
-                        newNeighbourCandidates.retainAll(ungroupedElements);
-                        for (Integer nextNeighbourId : newNeighbourCandidates) {
-                            Step newPath = new Step(nextNeighbourId, heightOfNeigbourElement);
-                            updateQueue(queue, newPath);
-                        }
+                    Set<Integer> newNeighbourCandidates = neighbourRegister.neighbourIds(currentPath.elementCandidateId());
+                    newNeighbourCandidates.retainAll(ungroupedElements);
+                    for (Integer nextNeighbourId : newNeighbourCandidates) {
+                        Step newPath = new Step(nextNeighbourId, heightOfNeigbourElement);
+                        updateQueue(queue, newPath);
                     }
+                }
             }
             allHills.add(hill);
         }
@@ -83,6 +87,7 @@ public class Hillfinder {
 
     /**
      * returns ids of all elements in mesh.
+     *
      * @return set with elements
      */
     private Set<Integer> getMeshElementIds() {
@@ -91,7 +96,9 @@ public class Hillfinder {
         element with the highest value should be in front to make removal O(log n). With n elements
         in the mesh, total element removal cost in O(n log n).
          */
-        Set<Integer> returnValue = new TreeSet<>((a, b) -> {return Double.compare(heightRegistry.get(b), heightRegistry.get(a));});
+        Set<Integer> returnValue = new TreeSet<>((a, b) -> {
+            return Double.compare(heightRegistry.get(b), heightRegistry.get(a));
+        });
         heightRegistry.keySet().forEach(returnValue::add);
         return returnValue;
     }

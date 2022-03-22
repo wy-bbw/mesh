@@ -75,7 +75,7 @@ public class HillfinderTest {
      * 2 <-8-> 8
      * 3 <-13-> 4
      * 5 <-2,3-> 6
-     *
+     * <p>
      * heights:
      * 0 -> 0
      * 1 -> 1
