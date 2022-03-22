@@ -35,15 +35,15 @@ public class Hillfinder {
             StarterKit starterKit = initializeHill(ungroupedElements);
 
             List<Step> startSteps = starterKit.paths();
-            Map<Integer, Step> queue = new HashMap<>();
+            Map<Integer, Step> pathPool = new HashMap<>();
             for (Step step : startSteps) {
-                updateQueue(queue, step);
+                updatePathPool(pathPool, step);
             }
 
             Hill hill = starterKit.hill();
 
-            while (!queue.isEmpty()) {
-                Step currentPath = front(queue);
+            while (!pathPool.isEmpty()) {
+                Step currentPath = front(pathPool);
                 double heightOfNeigbourElement = heightRegistry.get(currentPath.elementCandidateId());
                 // always go down from the top
                 if (heightOfNeigbourElement <= currentPath.previousHeight()) {
@@ -54,7 +54,7 @@ public class Hillfinder {
                     newNeighbourCandidates.retainAll(ungroupedElements);
                     for (Integer nextNeighbourId : newNeighbourCandidates) {
                         Step newPath = new Step(nextNeighbourId, heightOfNeigbourElement);
-                        updateQueue(queue, newPath);
+                        updatePathPool(pathPool, newPath);
                     }
                 }
             }
@@ -87,7 +87,6 @@ public class Hillfinder {
 
     /**
      * returns ids of all elements in mesh.
-     *
      * @return set with elements
      */
     private Set<Integer> getMeshElementIds() {
@@ -103,7 +102,7 @@ public class Hillfinder {
         return returnValue;
     }
 
-    private void updateQueue(Map<Integer, Step> queue, final Step step) {
+    private void updatePathPool(Map<Integer, Step> queue, final Step step) {
         Integer id = step.elementCandidateId();
         /*
         enter element into queue if it is not there. If element can be reached from a higher point, use that one as reference.

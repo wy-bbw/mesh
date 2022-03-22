@@ -2,7 +2,9 @@ package de.xibix.mesh.kallies.entities;
 
 import lombok.AllArgsConstructor;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 @AllArgsConstructor

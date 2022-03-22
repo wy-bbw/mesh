@@ -3,18 +3,15 @@ package de.xibix.mesh.kallies.usecases;
 import de.xibix.mesh.kallies.entities.Hill;
 import de.xibix.mesh.kallies.entities.NeighbourRegister;
 import de.xibix.mesh.kallies.io.ModelCreator;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HillfinderIntegrationTest {
 
@@ -33,7 +30,7 @@ public class HillfinderIntegrationTest {
         assertEquals(87, hills.get(3).getIdOfHighestElement());
     }
 
-    // used for exporting plotting data.
+    // used for exporting plotting data in plot.py
 //    @Test
 //    public void exportHillsAsJson() throws  IOException {
 //        String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_20000.json").getFile();
@@ -57,29 +54,41 @@ public class HillfinderIntegrationTest {
 //        out.flush();
 //    }
 
-    // Used for timing
     @Test
-    @Timeout(value = 1000, unit = TimeUnit.MILLISECONDS)
     public void findHillsInSin() throws IOException {
-        String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_10000.json").getFile();
-        ModelCreator modelCreator = new ModelCreator(filename);
-        NeighbourRegister neighbourRegister = modelCreator.createNeighbourRegister();
-        Map<Integer, Double> heightRegister = modelCreator.createHeightRegister();
-        Hillfinder hillfinder = new Hillfinder(neighbourRegister, heightRegister);
-        List<Hill> hills = hillfinder.findAll();
-        hills.sort(Hill.HIGHEST_HILL_FIRST);
+        List<Long> elapsedTimesMsec = new ArrayList<>();
+        for (int i = 0; i < 21; ++i) {
+            long start = System.currentTimeMillis();
+            String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_10000.json").getFile();
+            ModelCreator modelCreator = new ModelCreator(filename);
+            NeighbourRegister neighbourRegister = modelCreator.createNeighbourRegister();
+            Map<Integer, Double> heightRegister = modelCreator.createHeightRegister();
+            Hillfinder hillfinder = new Hillfinder(neighbourRegister, heightRegister);
+            List<Hill> hills = hillfinder.findAll();
+            hills.sort(Hill.HIGHEST_HILL_FIRST);
+            long duration = System.currentTimeMillis() - start;
+            elapsedTimesMsec.add(duration);
+        }
+        elapsedTimesMsec.sort((a, b) -> Long.compare(a, b));
+        assertTrue(elapsedTimesMsec.get(11) < 500);
     }
 
-    // used for timing
     @Test
-    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void findHillsInSinLarge() throws IOException {
-        String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_20000.json").getFile();
-        ModelCreator modelCreator = new ModelCreator(filename);
-        NeighbourRegister neighbourRegister = modelCreator.createNeighbourRegister();
-        Map<Integer, Double> heightRegister = modelCreator.createHeightRegister();
-        Hillfinder hillfinder = new Hillfinder(neighbourRegister, heightRegister);
-        List<Hill> hills = hillfinder.findAll();
-        hills.sort(Hill.HIGHEST_HILL_FIRST);
+        List<Long> elapsedTimesMsec = new ArrayList<>();
+        for (int i = 0; i < 21; ++i) {
+            long start = System.currentTimeMillis();
+            String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_20000.json").getFile();
+            ModelCreator modelCreator = new ModelCreator(filename);
+            NeighbourRegister neighbourRegister = modelCreator.createNeighbourRegister();
+            Map<Integer, Double> heightRegister = modelCreator.createHeightRegister();
+            Hillfinder hillfinder = new Hillfinder(neighbourRegister, heightRegister);
+            List<Hill> hills = hillfinder.findAll();
+            hills.sort(Hill.HIGHEST_HILL_FIRST);
+            long duration = System.currentTimeMillis() - start;
+            elapsedTimesMsec.add(duration);
+        }
+        elapsedTimesMsec.sort((a, b) -> Long.compare(a, b));
+        assertTrue(elapsedTimesMsec.get(11) < 1500);
     }
 }
