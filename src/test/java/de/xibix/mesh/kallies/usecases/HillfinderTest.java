@@ -12,7 +12,7 @@ public class HillfinderTest {
 
     void enterIntoMap(Map<Integer, Set<Integer>> map, final Integer key, final Integer... values) {
         final Set<Integer> setOfKey = new HashSet<>();
-        Arrays.stream(values).forEach(setOfKey::add);
+        setOfKey.addAll(Arrays.asList(values));
         map.put(key, setOfKey);
     }
     /*

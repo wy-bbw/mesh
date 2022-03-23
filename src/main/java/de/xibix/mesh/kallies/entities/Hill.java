@@ -40,10 +40,6 @@ public class Hill {
         return maxHeight;
     }
 
-    public Set<Integer> elementIds() {
-        return elements;
-    }
-
     /**
      * obtain element id of highest element in hill.
      *

@@ -4,6 +4,7 @@ import de.xibix.mesh.kallies.entities.NeighbourRegister;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ModelCreatorTest {
     @Test
     public void testCreateNeighbourRegistryContainsNeighbours() throws IOException {
-        String filename = Thread.currentThread().getContextClassLoader().getResource("mesh.json").getFile();
+        String filename = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("mesh.json")).getFile();
         ModelCreator modelCreator = new ModelCreator(filename);
         NeighbourRegister registry = modelCreator.createNeighbourRegister();
         Set<Integer> neighbours = registry.neighbourIds(0);

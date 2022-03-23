@@ -17,7 +17,6 @@ import java.util.Set;
  * helper class for handling json file input.
  */
 public class ModelCreator {
-    private final JSONArray nodes;
     private final JSONArray elements;
     private final JSONArray values;
 
@@ -31,7 +30,6 @@ public class ModelCreator {
         try (InputStream is = new FileInputStream(filename)) {
             final JSONTokener tokener = new JSONTokener(is);
             final JSONObject json = new JSONObject(tokener);
-            nodes = json.getJSONArray("nodes");
             elements = json.getJSONArray("elements");
             values = json.getJSONArray("values");
         }
@@ -77,9 +75,7 @@ public class ModelCreator {
     private void insertIntoMap(int key, int value, Map<Integer, Set<Integer>> map) {
         if (map.containsKey(key)) {
             Set<Integer> existingEntries = map.get(key);
-            if (!existingEntries.contains(value)) {
-                existingEntries.add(value);
-            }
+            existingEntries.add(value);
         } else {
             Set<Integer> newList = new HashSet<>();
             newList.add(value);

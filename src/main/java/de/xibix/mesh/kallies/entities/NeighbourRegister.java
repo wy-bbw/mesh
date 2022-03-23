@@ -31,6 +31,4 @@ public class NeighbourRegister {
         neighbourIds.remove(elementId);
         return neighbourIds;
     }
-
-    ;
 }

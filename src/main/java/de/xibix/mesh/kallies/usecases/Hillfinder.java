@@ -43,7 +43,7 @@ public class Hillfinder {
             Hill hill = starterKit.hill();
 
             while (!pathPool.isEmpty()) {
-                Step currentPath = front(pathPool);
+                Step currentPath = takeElementFrom(pathPool);
                 double heightOfNeigbourElement = heightRegistry.get(currentPath.elementCandidateId());
                 // always go down from the top
                 if (heightOfNeigbourElement <= currentPath.previousHeight()) {
@@ -118,10 +118,10 @@ public class Hillfinder {
         return;
     }
 
-    private Step front(Map<Integer, Step> queue) {
-        Iterator<Integer> it = queue.keySet().iterator();
+    private Step takeElementFrom(Map<Integer, Step> pool) {
+        Iterator<Integer> it = pool.keySet().iterator();
         Integer firstKey = it.next();
-        Step step = queue.remove(firstKey);
+        Step step = pool.remove(firstKey);
         return step;
     }
 }

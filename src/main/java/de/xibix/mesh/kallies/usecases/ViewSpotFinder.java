@@ -21,9 +21,9 @@ public class ViewSpotFinder {
      * @param filename name of json file
      * @param N        number of viewspots to find
      * @return json object with all viewspots
-     * @throws IOException
+     * @throws IOException exception
      */
-    public JSONArray findViewspots(final String filename, final int N) throws IOException {
+    private JSONArray findViewspots(final String filename, final int N) throws IOException {
         ModelCreator creator = new ModelCreator(filename);
         Map<Integer, Double> heightRegister = creator.createHeightRegister();
         NeighbourRegister neighbourRegister = creator.createNeighbourRegister();
@@ -56,7 +56,7 @@ public class ViewSpotFinder {
             return;
         }
 
-        int N = 0;
+        int N;
         try {
             N = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,7 +18,7 @@ public class HillfinderIntegrationTest {
 
     @Test
     public void findHillsInMesh() throws IOException {
-        String filename = Thread.currentThread().getContextClassLoader().getResource("mesh.json").getFile();
+        String filename = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("mesh.json")).getFile();
         ModelCreator modelCreator = new ModelCreator(filename);
         NeighbourRegister neighbourRegister = modelCreator.createNeighbourRegister();
         Map<Integer, Double> heightRegister = modelCreator.createHeightRegister();
@@ -59,7 +60,7 @@ public class HillfinderIntegrationTest {
         List<Long> elapsedTimesMsec = new ArrayList<>();
         for (int i = 0; i < 21; ++i) {
             long start = System.currentTimeMillis();
-            String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_10000.json").getFile();
+            String filename = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_10000.json")).getFile();
             ModelCreator modelCreator = new ModelCreator(filename);
             NeighbourRegister neighbourRegister = modelCreator.createNeighbourRegister();
             Map<Integer, Double> heightRegister = modelCreator.createHeightRegister();
@@ -69,7 +70,7 @@ public class HillfinderIntegrationTest {
             long duration = System.currentTimeMillis() - start;
             elapsedTimesMsec.add(duration);
         }
-        elapsedTimesMsec.sort((a, b) -> Long.compare(a, b));
+        elapsedTimesMsec.sort(Long::compare);
         assertTrue(elapsedTimesMsec.get(11) < 500);
     }
 
@@ -78,7 +79,7 @@ public class HillfinderIntegrationTest {
         List<Long> elapsedTimesMsec = new ArrayList<>();
         for (int i = 0; i < 21; ++i) {
             long start = System.currentTimeMillis();
-            String filename = Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_20000.json").getFile();
+            String filename = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("mesh_x_sin_cos_20000.json")).getFile();
             ModelCreator modelCreator = new ModelCreator(filename);
             NeighbourRegister neighbourRegister = modelCreator.createNeighbourRegister();
             Map<Integer, Double> heightRegister = modelCreator.createHeightRegister();
@@ -88,7 +89,7 @@ public class HillfinderIntegrationTest {
             long duration = System.currentTimeMillis() - start;
             elapsedTimesMsec.add(duration);
         }
-        elapsedTimesMsec.sort((a, b) -> Long.compare(a, b));
+        elapsedTimesMsec.sort(Long::compare);
         assertTrue(elapsedTimesMsec.get(11) < 1500);
     }
 }
